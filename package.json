@@ -1,0 +1,22 @@
+{
+  "name": "pycon-2026",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev --host",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@iconify-json/heroicons": "^1.2.3",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.16.11",
+    "astro-icon": "^1.1.5",
+    "daisyui": "^5.5.14",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19"
+  }
+}

@@ -1,0 +1,21 @@
+<div
+  id="scroll-indicator"
+  class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer z-20"
+>
+</div>
+
+<script>
+  const scrollIndicator = document.getElementById('scroll-indicator');
+  
+  if (scrollIndicator) {
+    scrollIndicator.addEventListener('click', () => {
+        const viewportHeight = window.innerHeight;
+        const navbarHeight = 80;
+
+        window.scrollTo({
+            top: viewportHeight - navbarHeight,
+            behavior: 'smooth',
+        });
+    });
+  }
+</script>

@@ -1,0 +1,71 @@
+---
+import { Image } from 'astro:assets';
+import backgroundImg from '../../assets/2025/landing-pages/banner-1.jpeg';
+import logoImg from '../../assets/2025/logos/logo.png';
+import ScrollIndicator from '../utils/ScrollIndicator.astro';
+
+---
+
+<section id="home" class="w-full min-h-screen relative flex flex-col overflow-hidden">
+    <!-- Background -->
+    <div class="absolute inset-0 z-0">
+         <Image
+            src={backgroundImg}
+            alt="Background"
+            class="object-cover w-full h-full blur-sm scale-110"
+            quality={100}
+        />
+        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/70"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 w-full flex-grow flex flex-col items-center justify-center px-4 py-24">
+          <div class="text-center animate-fade-in max-w-5xl mx-auto">
+            
+            <Image
+              src={logoImg}
+              alt="PyCon HK Logo"
+              class="w-80 md:w-80 h-auto mx-auto mb-8 animate-fade-in-up drop-shadow-2xl"
+              quality={100}
+            />
+
+            <h1
+              class="text-6xl md:text-8xl lg:text-9xl font-bold text-white tracking-tighter mb-6 leading-none font-dm-serif shadow-black drop-shadow-lg"
+            >
+              PyCon HK <span class="text-yellow">2026</span>
+            </h1>
+            
+            <p class="text-4xl md:text-6xl text-white/90 font-medium tracking-wide mb-10 italic font-dm-serif">
+               Sailing Together
+            </p>
+            
+            <p class="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-12 leading-relaxed font-lexend">
+              Pycon is the largest annual gathering for the Python community in Hong Kong. Join us for inspiring talks, hands-on workshops, and networking opportunities with fellow Python enthusiasts from around the world.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <a
+                  href="https://wtf.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group relative px-8 py-4 bg-yellow text-black rounded-none border border-yellow font-bold text-lg overflow-hidden transition-all duration-300 hover:shadow-[0_0_20px_rgba(254,206,0,0.5)] skew-x-[-12deg]"
+                >
+                  <span class="block skew-x-[12deg] group-hover:scale-105 transition-transform">
+                      GET TICKETS
+                  </span>
+                </a>
+                
+                <a
+                  href="/schedule"
+                  class="group relative px-8 py-4 bg-transparent text-white rounded-none border border-white font-bold text-lg overflow-hidden transition-all duration-300 hover:bg-white/10 skew-x-[-12deg]"
+                >
+                  <span class="block skew-x-[12deg]">
+                    VIEW SCHEDULE
+                  </span>
+                </a>
+            </div>
+          </div>
+          
+          <ScrollIndicator />
+    </div>
+</section>

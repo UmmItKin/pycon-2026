@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+
+const allNews = await getCollection('news');
+const posts = allNews.sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+    .map(post => ({
+        title: post.data.title,
+        slug: post.id,
+        publishedAt: post.data.publishedAt.toISOString(),
+    }));
+
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+---
+
+<div class="container mx-auto px-3 max-w-5xl">
+  <div class="text-center mb-12">
+    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-[#3776AB] mb-4">
+      Latest News
+    </h2>
+  </div>
+
+  {posts.length > 0 ? (
+    <ul class="space-y-4">
+      {posts.map(post => (
+        <li class="border-b border-[#3776AB]/10 pb-4">
+          <a href={`/news/${post.slug}`} class="group block">
+            <h3 class="text-base md:text-xl font-semibold text-gray-700 group-hover:text-[#3776AB] transition-colors">
+              {post.title}
+            </h3>
+            <div class="mt-4">
+              <time
+                datetime={post.publishedAt}
+                class="text-sm text-[#3776AB]/60"
+              >
+                {formatDate(post.publishedAt)}
+              </time>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p class="text-center text-gray-500">No news yet.</p>
+  )}
+  
+  <div class="text-center mt-8">
+     <a href="/news" class="text-[#3776AB] hover:underline font-semibold">View All News</a>
+  </div>
+</div>

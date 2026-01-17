@@ -1,0 +1,74 @@
+@import "tailwindcss";
+@plugin "daisyui";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-yellow: #fece00;
+  --color-blue: #3776AB;
+  --color-black: #222831;
+  --color-white: #fff;
+  
+  --font-lexend: "Lexend", sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-space: "Space Grotesk", sans-serif;
+  --font-playfair: "Playfair Display", serif;
+  --font-dm-serif: "DM Serif Display", serif;
+}
+
+html,
+body,
+:root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-lexend);
+  background-color: var(--color-white);
+  color: var(--color-black);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-dm-serif);
+}
+
+:root {
+  color-scheme: light only;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(var(--scroll-dist, -100%)); }
+}
+
+.animate-scroll {
+  animation: scroll 60s linear infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out;
+  animation-fill-mode: both;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}

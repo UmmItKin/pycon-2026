@@ -1,0 +1,235 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import logoImage from '../../../assets/2025/logos/logo.png';
+import { links } from './links';
+
+const isHome = Astro.url.pathname === '/';
+---
+
+<nav class:list={["fixed top-0 z-50 w-full h-20 transition-all duration-300", { "bg-[#222831] shadow-md": !isHome }]} id="main-nav">
+  <div class="flex items-center justify-between lg:container lg:mx-auto px-4 md:px-8 w-full h-full">
+    <!-- Logo -->
+    <div class="flex items-center justify-center h-full">
+      <a
+        href="/"
+        class="flex items-center text-white font-bold text-lg w-fit whitespace-nowrap"
+      >
+        <Image
+          src={logoImage}
+          alt="PyCon HK 2026 Logo"
+          class="my-auto p-1 w-20 h-auto"
+          quality={100}
+        />
+      </a>
+    </div>
+
+    <!-- Desktop Menu -->
+    <div class="hidden xl:flex xl:items-center xl:justify-between w-fit gap-8 tracking-wide text-sm uppercase" id="desktop-menu">
+      {links.map((link, index) => (
+        link.children ? (
+            <div class="menu-item relative">
+                <button 
+                    type="button" 
+                    class="menu-trigger flex items-center gap-1 py-7 cursor-pointer text-white/90 hover:text-white font-medium transition-colors border-b-2 border-transparent hover:border-white focus:outline-none"
+                    data-index={index}
+                >
+                    {link.label}
+                    <Icon name="heroicons:chevron-down" class="h-4 w-4 transition-transform duration-300 pointer-events-none" />
+                </button>
+                <div 
+                    class="menu-dropdown fixed top-20 left-0 w-full bg-[#222831] border-t border-gray-800 shadow-2xl origin-top transition-all duration-300 ease-out z-40 opacity-0 invisible -translate-y-2 min-h-[50vh]"
+                    data-index={index}
+                >
+                  <div class="container mx-auto px-8 py-16 h-full">
+                    <div class="grid grid-cols-12 gap-16 h-full">
+                      <!-- Section Title & Description -->
+                      <div class="col-span-4 flex flex-col border-r border-gray-700 pr-12">
+                        <div>
+                             <span class="text-yellow text-sm font-bold uppercase tracking-widest mb-4 block">Explore</span>
+                             <h4 class="text-6xl text-white font-dm-serif font-bold mb-8 leading-tight">{link.label}</h4>
+                             <p class="text-gray-400 text-lg font-light leading-relaxed max-w-sm">
+                               Discover everything related to {link.label.toLowerCase()}. Join the community and shape the future of Python in Hong Kong.
+                             </p>
+                        </div>
+                        <div class="mt-auto pt-12">
+                             <div class="w-16 h-1 bg-yellow mb-6"></div>
+                             <p class="text-gray-500 text-sm italic">PyCon HK 2026</p>
+                        </div>
+                      </div>
+
+                      <!-- Links Grid -->
+                      <div class="col-span-8 pl-8">
+                         <div class="grid grid-cols-2 gap-x-16 gap-y-12">
+                             {link.children.map((child) => (
+                                <a href={child.href} class="group/link block p-4 -ml-4 rounded-xl hover:bg-white/5 transition-all duration-300">
+                                  <h5 class="text-white text-2xl font-bold mb-3 group-hover/link:text-yellow transition-colors flex items-center gap-3">
+                                      {child.label}
+                                      <span class="opacity-0 -translate-x-4 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300 text-yellow text-xl">→</span>
+                                  </h5>
+                                  <p class="text-gray-500 text-sm font-normal normal-case tracking-wide group-hover/link:text-gray-300 transition-colors max-w-md">
+                                    Access direct information regarding {child.label.toLowerCase()}.
+                                  </p>
+                                </a>
+                             ))}
+                         </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        ) : (
+            <a href={link.href} class:list={["text-white/90 hover:text-white font-medium transition-colors border-b-2 border-transparent hover:border-white py-7", {"pointer-events-none opacity-50": !link.isActive}]}>
+                {link.label}
+            </a>
+        )
+      ))}
+    </div>
+
+    <!-- Mobile Menu (Drawer) -->
+    <div class="flex items-center xl:hidden w-full h-full justify-end">
+        <div class="drawer drawer-end w-fit">
+          <input id="nav-drawer" type="checkbox" class="drawer-toggle" />
+          <div class="drawer-content">
+            <label for="nav-drawer" class="btn btn-ghost btn-circle drawer-button text-white">
+                <Icon name="heroicons:bars-3" class="h-6 w-6" />
+            </label>
+          </div>
+          <div class="drawer-side z-50">
+            <label for="nav-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+            <div class="bg-[#222831] text-white min-h-full w-full p-8 pt-12 overflow-y-auto">
+                <div class="flex justify-between items-center mb-16 border-b border-gray-700 pb-8">
+                     <a href="/" class="block w-24">
+                        <Image
+                          src={logoImage}
+                          alt="PyCon HK"
+                          class="w-full h-auto brightness-0 invert"
+                          quality={100}
+                        />
+                     </a>
+                     <label for="nav-drawer" class="btn btn-circle btn-ghost text-white hover:bg-white/10">
+                        <Icon name="heroicons:x-mark" class="h-10 w-10" />
+                     </label>
+                </div>
+        
+                <ul class="w-full space-y-12 pl-0">
+                    {links.map(link => (
+                        link.children ? (
+                           <li class="border-b border-gray-700 pb-10 last:border-0 list-none">
+                             <div class="flex flex-col gap-6">
+                               <h4 class="text-4xl text-yellow font-dm-serif font-bold px-4">
+                                 {link.label}
+                               </h4>
+                               <ul class="grid grid-cols-1 gap-2 pl-0">
+                                 {link.children.map(child => (
+                                   <li class="list-none">
+                                     <a href={child.href} class:list={["group flex items-center justify-between text-2xl text-gray-300 hover:text-white transition-colors py-4 px-4 rounded-xl hover:bg-white/5", {"pointer-events-none opacity-50": !child.isActive}]}>
+                                       <span>{child.label}</span>
+                                       <span class="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-yellow text-xl">→</span>
+                                     </a>
+                                   </li>
+                                 ))}
+                               </ul>
+                             </div>
+                           </li>
+                        ) : (
+                          <li class="border-b border-gray-700 pb-10 last:border-0 list-none">
+                             <a href={link.href} class:list={["group flex items-center justify-between px-4 py-2", {"pointer-events-none opacity-50": !link.isActive}]}>
+                                 <h4 class="text-4xl text-yellow hover:text-white font-dm-serif font-bold transition-colors">
+                                    {link.label}
+                                 </h4>
+                                 <span class="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-yellow text-xl">→</span>
+                             </a>
+                          </li>
+                        )
+                    ))}
+                </ul>
+                
+                <div class="mt-20 pt-10 border-t border-gray-700 px-4">
+                    <p class="text-gray-500 text-sm">PyCon HK 2026</p>
+                </div>
+            </div>
+          </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const initNavBar = () => {
+    const nav = document.getElementById('main-nav');
+    if (nav && window.location.pathname === '/') {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 50) {
+            nav.classList.add('bg-black/95', 'backdrop-blur-sm', 'shadow-md');
+          } else {
+            nav.classList.remove('bg-black/95', 'backdrop-blur-sm', 'shadow-md');
+          }
+        });
+    }
+
+    const desktopMenu = document.getElementById('desktop-menu');
+    if (desktopMenu) {
+        let openIndex: string | null = null;
+        
+        const triggers = desktopMenu.querySelectorAll('.menu-trigger');
+        const dropdowns = desktopMenu.querySelectorAll('.menu-dropdown');
+
+        const closeAll = () => {
+            dropdowns.forEach(dd => {
+               dd.classList.remove('opacity-100', 'visible', 'translate-y-0');
+               dd.classList.add('opacity-0', 'invisible', '-translate-y-2');
+            });
+            triggers.forEach(t => {
+               t.querySelector('svg')?.classList.remove('rotate-180');
+            });
+            openIndex = null;
+        };
+
+        const openDropdown = (index: string) => {
+            const dd = desktopMenu.querySelector(`.menu-dropdown[data-index="${index}"]`);
+            const trigger = desktopMenu.querySelector(`.menu-trigger[data-index="${index}"]`);
+            
+            if (dd) {
+                dd.classList.add('opacity-100', 'visible', 'translate-y-0');
+                dd.classList.remove('opacity-0', 'invisible', '-translate-y-2');
+            }
+             if (trigger) {
+                trigger.querySelector('svg')?.classList.add('rotate-180');
+            }
+            openIndex = index;
+        }
+
+        triggers.forEach(trigger => {
+          trigger.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const target = e.currentTarget as HTMLElement;
+              const index = target.getAttribute('data-index');
+              
+              if (index === openIndex) {
+                   closeAll();
+              } else {
+                   closeAll();
+                   if (index) openDropdown(index);
+              }
+          });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (openIndex !== null && desktopMenu && !desktopMenu.contains(e.target as Node)) {
+                closeAll();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeAll();
+            }
+        });
+    }
+  };
+
+  initNavBar();
+  document.addEventListener('astro:page-load', initNavBar);
+</script>

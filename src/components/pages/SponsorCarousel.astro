@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+
+import aws from '../../assets/2025/sponsorships/transparent-bg/aws.svg';
+import beta_labs from '../../assets/2025/sponsorships/transparent-bg/beta_labs.svg';
+import bloomberg from '../../assets/2025/sponsorships/transparent-bg/bloomberg.svg';
+import boot_dev from '../../assets/2025/sponsorships/transparent-bg/boot.dev.webp';
+import cityu_coc from '../../assets/2025/sponsorships/transparent-bg/cityu_coc.svg';
+import jetbrains from '../../assets/2025/sponsorships/transparent-bg/jetbrains.svg';
+import lgt from '../../assets/2025/sponsorships/transparent-bg/lgt.svg';
+import navicat from '../../assets/2025/sponsorships/transparent-bg/navicat.svg';
+import psf from '../../assets/2025/sponsorships/transparent-bg/psf.webp';
+import pyladies_hk from '../../assets/2025/sponsorships/transparent-bg/pyladies_hk.svg';
+import redhat from '../../assets/2025/sponsorships/transparent-bg/redhat.svg';
+
+const sponsors = [
+    { name: "Amazon Web Services", logo: aws, url: "https://aws.amazon.com/" },
+    { name: "Beta Labs", logo: beta_labs, url: "https://www.beta-labs.com/" },
+    { name: "Bloomberg", logo: bloomberg, url: "https://www.bloomberg.com/" },
+    { name: "Boot.dev", logo: boot_dev, url: "https://boot.dev/" },
+    { name: "CityU CoC", logo: cityu_coc, url: "https://www.cityu.edu.hk/" },
+    { name: "JetBrains", logo: jetbrains, url: "https://www.jetbrains.com/" },
+    { name: "LGT", logo: lgt, url: "https://www.lgt.com/" },
+    { name: "Navicat", logo: navicat, url: "https://www.navicat.com/" },
+    { name: "Python Software Foundation", logo: psf, url: "https://www.python.org/psf/" },
+    { name: "PyLadies HK", logo: pyladies_hk, url: "https://hk.pyladies.com/" },
+    { name: "Red Hat", logo: redhat, url: "https://www.redhat.com/" },
+];
+
+const sponsorshipLogos = sponsors.map(s => ({
+    name: s.name,
+    logo: s.logo,
+    logoUrl: s.url
+}));
+
+const minItems = 15;
+let baseLogos = [...sponsorshipLogos];
+if (baseLogos.length > 0) {
+    while (baseLogos.length < minItems) {
+        baseLogos = [...baseLogos, ...sponsorshipLogos];
+    }
+}
+
+const allLogos = [...baseLogos, ...baseLogos];
+---
+
+<div class="slider h-auto m-auto overflow-hidden relative w-full max-w-5xl">
+  
+  <div class="absolute top-0 left-0 h-full w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+  <div class="absolute top-0 right-0 h-full w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+
+  <div 
+    class="slide-track flex animate-scroll" 
+    style={`width: calc(280px * ${allLogos.length}); --scroll-dist: calc(-280px * ${baseLogos.length});`}
+  >
+    {
+      allLogos.map((logo, index) => (
+        <div class="slide h-[150px] w-[280px] flex items-center justify-center px-2">
+          <a
+            href={logo.logoUrl}
+            target="_blank"
+            rel="noreferrer"
+            class="flex items-center justify-center w-full h-full transition-transform duration-300 transform hover:scale-110"
+            title={logo.name}
+          >
+            <Image
+              src={logo.logo}
+              alt={`${logo.name} logo`}
+              class="max-w-full max-h-full object-contain"
+              width={280}
+              height={150}
+            />
+          </a>
+        </div>
+      ))
+    }
+  </div>
+</div>
